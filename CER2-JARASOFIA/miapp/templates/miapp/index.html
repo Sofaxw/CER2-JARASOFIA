@@ -1,0 +1,51 @@
+{% extends 'miapp/base.html' %}
+
+{% block content %}
+
+<form action="{% url 'filtrar' %}" method="GET">
+    {% csrf_token %}
+    <div id="seleccion">
+        <select class="form-select" aria-label="Default select example" name="depto">
+            <option selected>Todos</option>
+            {% for valor in entity %}
+            <option value="{{valor.nombre}}">{{ valor.nombre }}</option>
+            {% endfor %}
+        </select>
+        <button id="carga" class="btn btn-primary" type="submit">Filtrar</button>
+    </div>
+</form>
+
+
+<div id="comunicados " class="d-xxl-none">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for c in comunicados %}
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{ c.titulo }}</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">{{ c.entidad.nombre }}</h6>
+              <p class="card-text">{{ c.detalle }}</p>
+              <p class="card-text">{{ c.fecha_publicacion }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="carrusel">
+  <div id="carouselExampleSlidesOnly" class="carousel slide mx-auto d-none d-xxl-block" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      {% for c in comunicados %}
+      <div class="carousel-item active">
+            <h5>{{ c.titulo }} </h5>
+            <h6> {{ c.entidad.nombre }} </h6>
+            <p> {{ c.detalle }} </p>
+            <p> {{ c.fecha_publicacion }} </p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
